@@ -86,10 +86,10 @@ def main():
 
         print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
               .format(messages_filepath, categories_filepath))
-        df = load_data(messages_filepath, categories_filepath)
+        df = load_messages_and_categories(messages_filepath, categories_filepath)
 
         print('Cleaning data...')
-        df = clean_data(df)
+        df = clean_data_categories(df)
         
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
         save_data(df, database_filepath)

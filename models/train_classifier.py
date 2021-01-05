@@ -4,7 +4,7 @@ Project: Disaster Response Pipeline (Udacity - Data Science Nanodegree)
 Sample Script Syntax:
 > python train_classifier.py <path to sqllite destination db> <path to the pickle file>
 Sample Script Execution:
-> python train_classifier.py ../data/disaster_response_db.db classifier.pkl
+> python train_classifier.py ../data/NilMessages.db classifier.pkl
 Arguments:
     1) Path to SQLite destination database (e.g. NilMessages.db)
     2) Path to pickle file name where ML model needs to be saved (e.g. classifier.pkl)
