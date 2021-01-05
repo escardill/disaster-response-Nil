@@ -50,7 +50,9 @@ def load_data(database_filepath):
         category_names -> List of categories name
     """
     engine = create_engine('sqlite:///' + database_filepath)
-    df = pd.read_sql('SELECT * FROM NilMessages', con=engine)
+    query = 'SELECT * FROM {}'.format(engine.table_names()[0])
+
+    df = pd.read_sql(query, con=engine)
 
     # Remove child alone as it has all zeros only
     df = df.drop(['child_alone'], axis=1)
