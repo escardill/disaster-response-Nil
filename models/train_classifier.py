@@ -49,10 +49,9 @@ def load_data(database_filepath):
         Y -> a dataframe containing labels
         category_names -> List of categories name
     """
-    engine = create_engine('sqlite:///' + database_filepath)
-    query = 'SELECT * FROM {}'.format(engine.table_names()[0])
 
-    df = pd.read_sql(query, con=engine)
+    engine = create_engine('sqlite:///{}'.format(database_filepath))
+    df = pd.read_sql_table('disaster_messages_tbl', engine)
 
     # Remove child alone as it has all zeros only
     df = df.drop(['child_alone'], axis=1)
@@ -81,6 +80,7 @@ def tokenize(text):
     tokens = word_tokenize(text)
 
     # lemmatize and remove stop words
+    lemmatizer = WordNetLemmatizer() 
     clean = [lemmatizer.lemmatize(word) for word in tokens if word not in stopwords.words("english")]
     tokens = [lemmatizer.lemmatize(w, pos='v').strip() for w in clean]
 
@@ -114,10 +114,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
         This method does nto specifically return any data to its calling method.
         However, it prints out the precision, recall and f1-score
     '''
-    y_pred = pipeline.predict(X_test)
+    y_pred = model.predict(X_test)
     for i, category in enumerate(category_names):
-        print("Category:", category,"\n", classification_report(y_test.iloc[:, i].values, y_pred[:, i]))
-        print('Accuracy of %25s: %.2f' %(category, accuracy_score(y_test.iloc[:, i].values, y_pred[:,i])))
+        print("Category:", category,"\n", classification_report(Y_test.iloc[:, i].values, y_pred[:, i]))
+        print('Accuracy of %25s: %.2f' %(category, accuracy_score(Y_test.iloc[:, i].values, y_pred[:,i])))
 
 
 def save_model(model, model_filepath):
